@@ -27,17 +27,17 @@ namespace AbsorbCodingChallenge
             {
                 Name = i.Key,
                 Quantity = i.Count(),
-                Price = GetPriceForItem(i.Key)
+                Price = GetPriceForItem(i.Key, i.Count())
             }));
 
             return items;
         }
 
-        private decimal? GetPriceForItem(string name)
+        private decimal? GetPriceForItem(string name, int quantity)
         {
             var itemPrice = ItemPrices.FirstOrDefault(p => p.Name == name);
             decimal? price = itemPrice?.Price;
-            return price;
+            return price * quantity;
         }
 
         private IEnumerable<IGrouping<string, ScannedItem>> GetGroupedScannedItems()
