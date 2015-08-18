@@ -8,15 +8,15 @@
 
         public decimal CalculatePrice(int quantity)
         {
-            decimal price;
+            decimal price = 0;
             if (Promotion != null)
             {
-                price = Promotion.CalculatePrice(quantity, Price);
+                var result = Promotion.CalculatePrice(quantity, Price);
+                price = result.DiscountPrice;
+                quantity = result.RegularPricedQuantity;
             }
-            else
-            {
-                price = Price * quantity;
-            }
+
+            price += Price * quantity;
 
             return price;
         }

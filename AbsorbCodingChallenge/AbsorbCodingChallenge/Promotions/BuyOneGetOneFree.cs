@@ -12,7 +12,7 @@ namespace AbsorbCodingChallenge.Promotions
                 DiscountPercent = 100,
             };
         }
-        public decimal CalculatePrice(int quantity, decimal regularPrice)
+        public CalculatePriceResult CalculatePrice(int quantity, decimal regularPrice)
         {
             return promo.CalculatePrice(quantity, regularPrice);
         }
