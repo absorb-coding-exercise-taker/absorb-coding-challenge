@@ -8,33 +8,36 @@ namespace AbsorbCodingChallenge.Tests
     public class ReceiptTest
     {
         [TestMethod]
-        public void ItPrintsAnEmptyReceiptItems()
+        public void ItCalculatesAnEmptyReceiptItemsList()
         {
             var receipt = new Receipt();
-            var value = receipt.PrintItems();
-            Assert.AreEqual("No items found", value);
+            var value = receipt.GetItems();
+            Assert.AreEqual(0, value.Count);
         }
 
         [TestMethod]
-        public void ItPrintsAnEmptyReceiptTotal()
+        public void ItCalculatesAnEmptyReceiptTotal()
         {
             var receipt = new Receipt();
-            var value = receipt.PrintTotal();
-            Assert.AreEqual("Total: $0", value);
+            var value = receipt.GetTotal();
+            Assert.AreEqual(0, value);
         }
 
         [TestMethod]
-        public void ItPrintsAReceiptWith1Item()
+        public void ItGetsAReceiptWith1Item()
         {
             var receipt = new Receipt()
             {
-                Items = new List<Item>()
+                ScannedItems = new List<ScanedItem>()
                 {
-                    new Item {Name = "Apple"}
+                    new ScanedItem {Name = "Apple"}
                 }
             };
-            var value = receipt.PrintItems().Trim();
-            Assert.AreEqual("Apple x1", value);
+            var value = receipt.GetItems();
+            Assert.AreEqual(1, value.Count);
+            Assert.AreEqual("Apple", value[0].Name);
+            Assert.AreEqual(1, value[0].Quantity);
         }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,40 +10,29 @@ namespace AbsorbCodingChallenge
     public class Receipt
     {
 
-        public IEnumerable<Item> Items { get; set; }
+        public IEnumerable<ScanedItem> ScannedItems { get; set; }
         public Receipt()
         {
-            Items = new List<Item>();
+            ScannedItems = new List<ScanedItem>();
         }
 
-        public string PrintItems()
+        public IList<ReceiptItem> GetItems()
         {
-            if (!Items.Any())
-            {
-                return "No items found";
-            }
+            var items = new List<ReceiptItem>();
 
-            var receipt = new StringBuilder();
-            foreach (var item in Items)
-            {
-                receipt.AppendLine($"{item.Name} x1");
-            }
-            return receipt.ToString();
+            items.AddRange(ScannedItems.Select(item => new ReceiptItem {Name = item.Name, Quantity = 1}));
+
+            return items;
         }
 
-        public string PrintTotal()
+        public decimal GetTotal()
         {
-            return "Total: $0";
+            return 0;
         }
 
         public string Print()
         {
-            return PrintItems() + "\r\n" + PrintTotal();
+            return GetItems() + "\r\n" + GetTotal();
         }
-    }
-
-    public class Item
-    {
-        public string Name { get; set; }
     }
 }

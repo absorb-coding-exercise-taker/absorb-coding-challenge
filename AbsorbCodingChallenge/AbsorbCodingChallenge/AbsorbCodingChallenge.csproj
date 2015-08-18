@@ -47,6 +47,8 @@
     <Compile Include="Receipt.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReceiptItem.cs" />
+    <Compile Include="ScanedItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
