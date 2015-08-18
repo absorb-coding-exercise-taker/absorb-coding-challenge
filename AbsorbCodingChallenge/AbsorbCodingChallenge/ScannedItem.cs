@@ -1,6 +1,6 @@
 namespace AbsorbCodingChallenge
 {
-    public class ScanedItem
+    public class ScannedItem
     {
         public string Name { get; set; }
     }

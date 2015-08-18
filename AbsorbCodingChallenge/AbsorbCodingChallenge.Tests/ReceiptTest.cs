@@ -28,9 +28,9 @@ namespace AbsorbCodingChallenge.Tests
         {
             var receipt = new Receipt()
             {
-                ScannedItems = new List<ScanedItem>()
+                ScannedItems = new List<ScannedItem>()
                 {
-                    new ScanedItem {Name = "Apple"}
+                    new ScannedItem {Name = "Apple"}
                 }
             };
             var value = receipt.GetItems();
@@ -38,6 +38,82 @@ namespace AbsorbCodingChallenge.Tests
             Assert.AreEqual("Apple", value[0].Name);
             Assert.AreEqual(1, value[0].Quantity);
         }
-        
+
+        [TestMethod]
+        public void ItGetsAReceiptWith2Items()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem {Name = "Apple"},
+                    new ScannedItem {Name = "Banana"}
+                }
+            };
+            var value = receipt.GetItems();
+            Assert.AreEqual(2, value.Count);
+            Assert.AreEqual("Apple", value[0].Name);
+            Assert.AreEqual(1, value[0].Quantity);
+            Assert.AreEqual("Banana", value[1].Name);
+            Assert.AreEqual(1, value[1].Quantity);
+        }
+
+        [TestMethod]
+        public void ItGetsAReceiptWith1ItemTwice()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem {Name = "Apple"},
+                    new ScannedItem {Name = "Apple"}
+                }
+            };
+            var value = receipt.GetItems();
+            Assert.AreEqual(1, value.Count);
+            Assert.AreEqual("Apple", value[0].Name);
+            Assert.AreEqual(2, value[0].Quantity);
+        }
+
+        [TestMethod]
+        public void ItGetsAReceiptWith1ItemTwiceAnd1ItemOnce()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem {Name = "Apple"},
+                    new ScannedItem {Name = "Apple"},
+                    new ScannedItem {Name = "Banana"}
+                }
+            };
+            var value = receipt.GetItems();
+            Assert.AreEqual(2, value.Count);
+            Assert.AreEqual("Apple", value[0].Name);
+            Assert.AreEqual(2, value[0].Quantity);
+            Assert.AreEqual("Banana", value[1].Name);
+            Assert.AreEqual(1, value[1].Quantity);
+        }
+
+        [TestMethod]
+        public void ItGetsAReceiptWith1ItemTwiceAnd1ItemOnceOutOfOrder()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem {Name = "Apple"},
+                    new ScannedItem {Name = "Banana"},
+                    new ScannedItem {Name = "Apple"},
+                }
+            };
+            var value = receipt.GetItems();
+            Assert.AreEqual(2, value.Count);
+            Assert.AreEqual("Apple", value[0].Name);
+            Assert.AreEqual(2, value[0].Quantity);
+            Assert.AreEqual("Banana", value[1].Name);
+            Assert.AreEqual(1, value[1].Quantity);
+        }
+
     }
 }

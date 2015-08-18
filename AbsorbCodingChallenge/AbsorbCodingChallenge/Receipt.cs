@@ -10,20 +10,30 @@ namespace AbsorbCodingChallenge
     public class Receipt
     {
 
-        public IEnumerable<ScanedItem> ScannedItems { get; set; }
+        public IEnumerable<ScannedItem> ScannedItems { get; set; }
         public Receipt()
         {
-            ScannedItems = new List<ScanedItem>();
+            ScannedItems = new List<ScannedItem>();
         }
 
         public IList<ReceiptItem> GetItems()
         {
             var items = new List<ReceiptItem>();
 
-            items.AddRange(ScannedItems.Select(item => new ReceiptItem {Name = item.Name, Quantity = 1}));
+            var scannedItemsGrouped = GetGroupedScannedItems();
+            items.AddRange(scannedItemsGrouped.Select(i => new ReceiptItem
+            {
+                Name = i.Key,
+                Quantity = i.Count()
+            }));
 
             return items;
         }
+
+        private IEnumerable<IGrouping<string, ScannedItem>> GetGroupedScannedItems()
+        {
+            return ScannedItems.GroupBy(g => g.Name);
+        } 
 
         public decimal GetTotal()
         {
