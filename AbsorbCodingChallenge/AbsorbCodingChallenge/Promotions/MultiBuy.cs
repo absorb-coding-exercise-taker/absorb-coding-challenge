@@ -9,7 +9,11 @@
         {
             if (quantity < Quantity)
             {
-                return quantity*regularPrice;
+                return quantity * regularPrice;
+            }
+            if (quantity > Quantity)
+            {
+                return Price + ((quantity % Quantity) * regularPrice);
             }
             return Price;
         }

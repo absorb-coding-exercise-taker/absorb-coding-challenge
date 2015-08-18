@@ -189,12 +189,14 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
-        public void ItGetsAReceiptWith1RegularPricedItemWithMultiBuyPromoUnderflow()
+        public void ItGetsAReceiptWith1RegularPricedItemWithMultiBuyPromoOverflow()
         {
             var receipt = new Receipt()
             {
                 ScannedItems = new List<ScannedItem>()
                 {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
                     new ScannedItem { Name = "Apple" },
                     new ScannedItem { Name = "Apple" },
                 },
