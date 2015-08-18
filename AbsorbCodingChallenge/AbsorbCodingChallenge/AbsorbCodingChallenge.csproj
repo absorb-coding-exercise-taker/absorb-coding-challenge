@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemPrice.cs" />
+    <Compile Include="Promotions\BuyOneGetOneFree.cs" />
     <Compile Include="Promotions\IPromotion.cs" />
     <Compile Include="Promotions\MultiBuy.cs" />
     <Compile Include="Receipt.cs" />

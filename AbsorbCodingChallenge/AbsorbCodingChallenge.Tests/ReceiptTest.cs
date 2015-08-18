@@ -274,5 +274,44 @@ namespace AbsorbCodingChallenge.Tests
             Assert.AreEqual(2, value.Price);
         }
 
+        [TestMethod]
+        public void ItGetsReceiptWith1ItemAndBogoPromoMatch()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOneFree() }
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(2, value.Price);
+        }
+
+        [TestMethod]
+        public void ItGetsReceiptWith1ItemAndBogoPromoOverflow()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOneFree() }
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(4, value.Price);
+        }
+
     }
 }

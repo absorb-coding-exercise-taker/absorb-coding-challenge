@@ -19,11 +19,4 @@ namespace AbsorbCodingChallenge.Promotions
             return regularPricedItems + discountedPricedItems;
         }
     }
-    public class BuyOneGetOneFree : IPromotion
-    {
-        public decimal CalculatePrice(int quantity, decimal regularPrice)
-        {
-            return quantity * regularPrice;
-        }
-    }
 }
