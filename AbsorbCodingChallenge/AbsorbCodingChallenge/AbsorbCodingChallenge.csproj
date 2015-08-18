@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemPrice.cs" />
+    <Compile Include="Promotions\MultiBuy.cs" />
     <Compile Include="Receipt.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -36,8 +36,22 @@ namespace AbsorbCodingChallenge
         private decimal? GetPriceForItem(string name, int quantity)
         {
             var itemPrice = ItemPrices.FirstOrDefault(p => p.Name == name);
-            decimal? price = itemPrice?.Price;
-            return price * quantity;
+            if (itemPrice == null)
+            {
+                return null;
+            }
+
+            decimal? price;
+            if (itemPrice.Promotion != null)
+            {
+                price = itemPrice.Promotion.CalculatePrice(quantity);
+            }
+            else
+            {
+                price = itemPrice.Price * quantity;
+            }
+
+            return price;
         }
 
         private IEnumerable<IGrouping<string, ScannedItem>> GetGroupedScannedItems()
