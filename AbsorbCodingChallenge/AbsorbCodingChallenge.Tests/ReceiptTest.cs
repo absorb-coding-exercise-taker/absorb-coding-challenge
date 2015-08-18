@@ -169,7 +169,7 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
-        public void ItGetsAReceiptWith1RegularPricedItemWithMultiBuyPromo()
+        public void ItGetsAReceiptWithMultiBuyPromo()
         {
             var receipt = new Receipt()
             {
@@ -189,7 +189,7 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
-        public void ItGetsAReceiptWith1RegularPricedItemWithMultiBuyPromoOverflow()
+        public void ItGetsAReceiptWithMultiBuyPromoOverflow()
         {
             var receipt = new Receipt()
             {
@@ -210,7 +210,7 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
-        public void ItGetsAReceiptWith1RegularPricedItemWithMultiBuyPromoDoubleOverflow()
+        public void ItGetsAReceiptWithMultiBuyPromoDoubleOverflow()
         {
             var receipt = new Receipt()
             {
@@ -229,6 +229,49 @@ namespace AbsorbCodingChallenge.Tests
             };
             var value = receipt.GetItems().First();
             Assert.AreEqual(3, value.Price);
+        }
+
+        [TestMethod]
+        public void ItGetsAReceiptWith2MultiBuyTypes()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Banana" },
+                    new ScannedItem { Name = "Banana" },
+                    new ScannedItem { Name = "Banana" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 1, Promotion = new Promotions.MultiBuy { Quantity = 2, Price = 1 } },
+                    new ItemPrice() { Name = "Banana", Price = 2, Promotion = new Promotions.MultiBuy { Quantity = 3, Price = 5 } }
+                }
+            };
+            var apple = receipt.GetItems().First();
+            var banana = receipt.GetItems().ElementAt(1);
+            Assert.AreEqual(1, apple.Price);
+            Assert.AreEqual(5, banana.Price);
+        }
+
+        [TestMethod]
+        public void ItGetsReceiptWith1ItemAndBogoPromoUnderflow()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOneFree() }
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(2, value.Price);
         }
 
     }

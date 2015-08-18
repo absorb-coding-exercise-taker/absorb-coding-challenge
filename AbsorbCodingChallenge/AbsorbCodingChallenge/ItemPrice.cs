@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public Promotions.MultiBuy Promotion { get;set; }
+        public Promotions.IPromotion Promotion { get;set; }
 
         public decimal CalculatePrice(int quantity)
         {
