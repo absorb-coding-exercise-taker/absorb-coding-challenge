@@ -1,4 +1,7 @@
-﻿namespace AbsorbCodingChallenge.Promotions
+﻿using System;
+using System.Runtime.Remoting.Messaging;
+
+namespace AbsorbCodingChallenge.Promotions
 {
     public class MultiBuy
     {
@@ -7,15 +10,13 @@
 
         public decimal CalculatePrice(int quantity, decimal regularPrice)
         {
-            if (quantity < Quantity)
-            {
-                return quantity * regularPrice;
-            }
-            if (quantity > Quantity)
-            {
-                return Price + ((quantity % Quantity) * regularPrice);
-            }
-            return Price;
+            var remainder = quantity%Quantity;
+            var regularPricedItems = remainder*regularPrice;
+
+            var discountedItems = Math.Floor(quantity/ (decimal)Quantity);
+            var discountedPricedItems = discountedItems*Price;
+        
+            return regularPricedItems + discountedPricedItems;
         }
     }
 }

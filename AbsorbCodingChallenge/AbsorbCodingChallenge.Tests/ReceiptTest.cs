@@ -209,5 +209,27 @@ namespace AbsorbCodingChallenge.Tests
             Assert.AreEqual(2, value.Price);
         }
 
+        [TestMethod]
+        public void ItGetsAReceiptWith1RegularPricedItemWithMultiBuyPromoDoubleOverflow()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 1, Promotion = new Promotions.MultiBuy { Quantity = 2, Price = 1 } }
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(3, value.Price);
+        }
+
     }
 }
