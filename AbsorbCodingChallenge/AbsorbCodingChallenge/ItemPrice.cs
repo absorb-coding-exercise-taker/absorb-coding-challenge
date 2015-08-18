@@ -11,7 +11,7 @@
             decimal price;
             if (Promotion != null)
             {
-                price = Promotion.CalculatePrice(quantity);
+                price = Promotion.CalculatePrice(quantity, Price);
             }
             else
             {
