@@ -257,7 +257,7 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
-        public void ItGetsReceiptWith1ItemAndBogoPromoUnderflow()
+        public void ItGetsReceiptBogoPromoUnderflow()
         {
             var receipt = new Receipt()
             {
@@ -275,7 +275,7 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
-        public void ItGetsReceiptWith1ItemAndBogoPromoMatch()
+        public void ItGetsReceiptBogoPromoMatch()
         {
             var receipt = new Receipt()
             {
@@ -294,7 +294,7 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
-        public void ItGetsReceiptWith1ItemAndBogoPromoOverflow()
+        public void ItGetsReceiptWithBogoPromoOverflow()
         {
             var receipt = new Receipt()
             {
@@ -311,6 +311,63 @@ namespace AbsorbCodingChallenge.Tests
             };
             var value = receipt.GetItems().First();
             Assert.AreEqual(4, value.Price);
+        }
+
+        [TestMethod]
+        public void ItGetsReceiptBogo50PromoUnderflow()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff { DiscountPercent = 50} }
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(2, value.Price);
+        }
+
+        [TestMethod]
+        public void ItGetsReceiptBogo50PromoMatch()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff { DiscountPercent = 50} }
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(3, value.Price);
+        }
+
+        [TestMethod]
+        public void ItGetsReceiptBogo50PromoOverflow()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff { DiscountPercent = 50} }
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(5, value.Price);
         }
 
     }
