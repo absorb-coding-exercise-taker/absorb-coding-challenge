@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AbsorbCodingChallenge.Tests
@@ -113,6 +114,40 @@ namespace AbsorbCodingChallenge.Tests
             Assert.AreEqual(2, value[0].Quantity);
             Assert.AreEqual("Banana", value[1].Name);
             Assert.AreEqual(1, value[1].Quantity);
+        }
+
+        [TestMethod]
+        public void ItGetsAReceiptWithNoPrice()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                },
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual("Apple", value.Name);
+            Assert.AreEqual(null, value.Price);
+        }
+
+        [TestMethod]
+        public void ItGetsAReceiptWith1RegularPricedItem()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 1}
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual("Apple", value.Name);
+            Assert.AreEqual(1, value.Price);
         }
 
     }

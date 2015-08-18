@@ -11,9 +11,11 @@ namespace AbsorbCodingChallenge
     {
 
         public IEnumerable<ScannedItem> ScannedItems { get; set; }
+        public IEnumerable<ItemPrice> ItemPrices { get; set; }
         public Receipt()
         {
             ScannedItems = new List<ScannedItem>();
+            ItemPrices = new List<ItemPrice>();
         }
 
         public IList<ReceiptItem> GetItems()
@@ -24,10 +26,18 @@ namespace AbsorbCodingChallenge
             items.AddRange(scannedItemsGrouped.Select(i => new ReceiptItem
             {
                 Name = i.Key,
-                Quantity = i.Count()
+                Quantity = i.Count(),
+                Price = GetPriceForItem(i.Key)
             }));
 
             return items;
+        }
+
+        private decimal? GetPriceForItem(string name)
+        {
+            var itemPrice = ItemPrices.FirstOrDefault(p => p.Name == name);
+            decimal? price = itemPrice?.Price;
+            return price;
         }
 
         private IEnumerable<IGrouping<string, ScannedItem>> GetGroupedScannedItems()
