@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AbsorbCodingChallenge.Promotions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AbsorbCodingChallenge.Tests
@@ -370,5 +371,76 @@ namespace AbsorbCodingChallenge.Tests
             Assert.AreEqual(5, value.Price);
         }
 
+        [TestMethod]
+        public void ItIgnoresDuplicatePricesExceptTheLastOne()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 1},
+                    new ItemPrice() { Name = "Apple", Price = 2}
+                }
+            };
+            var value = receipt.GetItems().First();
+            Assert.AreEqual(2, value.Price);
+        }
+
+        [TestMethod]
+        public void ItCalculatesATotalWith1Item()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 1 }
+                }
+            };
+            Assert.AreEqual(1, receipt.GetTotal());
+        }
+
+        [TestMethod]
+        public void ItCalculatesATotalWithDuplicateItem()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 1 }
+                }
+            };
+            Assert.AreEqual(2, receipt.GetTotal());
+        }
+
+        [TestMethod]
+        public void ItCalculatesATotalWithDuplicateItemAndDiscounts()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 1, Promotion = new BuyOneGetOneFree()}
+                }
+            };
+            Assert.AreEqual(1, receipt.GetTotal());
+        }
     }
 }

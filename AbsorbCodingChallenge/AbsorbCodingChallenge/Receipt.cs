@@ -9,7 +9,6 @@ namespace AbsorbCodingChallenge
 {
     public class Receipt
     {
-
         public IEnumerable<ScannedItem> ScannedItems { get; set; }
         public IEnumerable<ItemPrice> ItemPrices { get; set; }
         public Receipt()
@@ -35,7 +34,7 @@ namespace AbsorbCodingChallenge
 
         private decimal? GetPriceForItem(string name, int quantity)
         {
-            var itemPrice = ItemPrices.FirstOrDefault(p => p.Name == name);
+            var itemPrice = ItemPrices.LastOrDefault(p => p.Name == name);
 
             return itemPrice?.CalculatePrice(quantity);
         }
@@ -47,12 +46,9 @@ namespace AbsorbCodingChallenge
 
         public decimal GetTotal()
         {
-            return 0;
-        }
-
-        public string Print()
-        {
-            return GetItems() + "\r\n" + GetTotal();
+            var items = GetItems();
+            var total = items.Sum(i => i.Price);
+            return total ?? 0;
         }
     }
 }
