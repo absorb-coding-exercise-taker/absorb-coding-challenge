@@ -175,5 +175,34 @@ namespace AbsorbCodingChallenge.Tests
             var receiptPrinter = new ReceiptPrinter(receipt);
             Assert.AreEqual("Total: $0.50", receiptPrinter.PrintTotal());
         }
+
+        [TestMethod]
+        public void ItPrintsAnEmptyReceipt()
+        {
+            var receipt = new Receipt();
+            var receiptPrinter = new ReceiptPrinter(receipt);
+            Assert.AreEqual("No items found\r\nTotal: $0.00", receiptPrinter.Print());
+        }
+
+        [TestMethod]
+        public void ItPrintsABasicReceipt()
+        {
+            var receipt = new Receipt
+            {
+                ItemPrices = new List<ItemPrice>
+                {
+                    new ItemPrice { Name = "Apple", Price = 0.5M, Promotion = new BuyOneGetOneFree()},
+                    new ItemPrice { Name = "Banana", Price = 2.45M},
+                },
+                ScannedItems = new List<ScannedItem>
+                {
+                    new ScannedItem() { Name="Apple" },
+                    new ScannedItem() { Name="Apple" },
+                    new ScannedItem() { Name="Banana" }
+                }
+            };
+            var receiptPrinter = new ReceiptPrinter(receipt);
+            Assert.AreEqual("Apple x2\t$0.50\r\nBanana x1\t$2.45\r\nTotal: $2.95", receiptPrinter.Print());
+        }
     }
 }

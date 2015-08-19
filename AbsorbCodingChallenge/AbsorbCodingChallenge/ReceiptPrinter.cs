@@ -38,5 +38,10 @@ namespace AbsorbCodingChallenge
         {
             return $"Total: ${_total.ToString("0.00")}";
         }
+
+        public string Print()
+        {
+            return PrintItems() + PrintTotal();
+        }
     }
 }
