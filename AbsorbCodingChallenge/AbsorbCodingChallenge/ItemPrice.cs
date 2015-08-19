@@ -1,4 +1,6 @@
-﻿namespace AbsorbCodingChallenge
+﻿using System.Runtime.InteropServices;
+
+namespace AbsorbCodingChallenge
 {
     public class ItemPrice
     {
@@ -16,7 +18,7 @@
                 quantity = result.RegularPricedQuantity;
             }
 
-            price += Price * quantity;
+            price = Price * quantity;
 
             return price;
         }
