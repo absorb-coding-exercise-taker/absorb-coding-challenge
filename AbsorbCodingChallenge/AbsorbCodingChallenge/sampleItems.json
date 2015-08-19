@@ -1,0 +1,24 @@
+[
+	{
+		'Name': 'Apple',
+		'Price': 0.75,
+		'Promotion': 'BOGO'
+	},
+	{
+		'Name': 'Banana',
+		'Price': 1.25,
+		'Promotion': 'BOGO-PERCENT',
+		'DiscountPercent': 50,
+	},
+	{
+		'Name': 'Orange',
+		'Price': 2
+	},
+	{
+		'Name': 'Cake',
+		'Price': 2,
+		'Promotion': 'MULTI-BUY',
+		'DiscountPrice': 3,
+		'DiscountQuantity': 2
+	}
+]
