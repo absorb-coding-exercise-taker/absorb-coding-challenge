@@ -264,7 +264,7 @@ namespace AbsorbCodingChallenge.Tests
                 },
                 ItemPrices = new List<ItemPrice>()
                 {
-                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff { DiscountPercent = 50} }
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff(50) }
                 }
             };
             var value = receipt.GetItems().First();
@@ -283,7 +283,7 @@ namespace AbsorbCodingChallenge.Tests
                 },
                 ItemPrices = new List<ItemPrice>()
                 {
-                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff { DiscountPercent = 50} }
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff(50) }
                 }
             };
             var value = receipt.GetItems().First();
@@ -303,7 +303,7 @@ namespace AbsorbCodingChallenge.Tests
                 },
                 ItemPrices = new List<ItemPrice>()
                 {
-                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff { DiscountPercent = 50} }
+                    new ItemPrice() { Name = "Apple", Price = 2, Promotion = new Promotions.BuyOneGetOnePercentOff(50) }
                 }
             };
             var value = receipt.GetItems().First();

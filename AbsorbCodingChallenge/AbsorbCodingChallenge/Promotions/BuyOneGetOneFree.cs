@@ -7,10 +7,7 @@ namespace AbsorbCodingChallenge.Promotions
         private readonly BuyOneGetOnePercentOff promo;
         public BuyOneGetOneFree()
         {
-            promo = new BuyOneGetOnePercentOff
-            {
-                DiscountPercent = 100,
-            };
+            promo = new BuyOneGetOnePercentOff(100);
         }
         public CalculatePriceResult CalculatePrice(int quantity, decimal regularPrice)
         {

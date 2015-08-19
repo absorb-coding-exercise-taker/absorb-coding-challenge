@@ -29,14 +29,14 @@ namespace AbsorbCodingChallenge
             var items = new StringBuilder();
             foreach (var item in _receipt.GetItems())
             {
-                items.AppendLine($"{item.Name} x{item.Quantity}\t${item.Price.ToString("#.##")}");
+                items.AppendLine($"{item.Name} x{item.Quantity}\t${item.Price.ToString("0.00")}");
             }
             return items.ToString();
         }
 
         public string PrintTotal()
         {
-            return "Total: $0";
+            return $"Total: ${_total.ToString("0.00")}";
         }
     }
 }

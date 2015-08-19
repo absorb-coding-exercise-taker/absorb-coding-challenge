@@ -4,6 +4,11 @@ namespace AbsorbCodingChallenge.Promotions
 {
     public class BuyOneGetOnePercentOff : IPromotion
     {
+        public BuyOneGetOnePercentOff(decimal discountPercent)
+        {
+            DiscountPercent = discountPercent;
+        }
+
         public decimal DiscountPercent { get; set; }
         public CalculatePriceResult CalculatePrice(int quantity, decimal regularPrice)
         {

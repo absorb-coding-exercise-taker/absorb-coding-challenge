@@ -32,9 +32,27 @@ namespace AbsorbCodingChallenge.Tests
                 }
             };
             var receiptPrinter = new ReceiptPrinter(receipt);
-            Assert.AreEqual("Apple x1\t$1", receiptPrinter.PrintItems().Trim());
+            Assert.AreEqual("Apple x1\t$1.00", receiptPrinter.PrintItems().Trim());
         }
 
+        [TestMethod]
+        public void ItPrintsABasicReceiptItemWithDecimals()
+        {
+            var receipt = new Receipt
+            {
+                ItemPrices = new List<ItemPrice>
+                {
+                    new ItemPrice { Name = "Apple", Price = 0.75M}
+                },
+                ScannedItems = new List<ScannedItem>
+                {
+                    new ScannedItem() { Name="Apple" }
+                }
+            };
+            var receiptPrinter = new ReceiptPrinter(receipt);
+            Assert.AreEqual("Apple x1\t$0.75", receiptPrinter.PrintItems().Trim());
+        }
+        
         [TestMethod]
         public void ItPrintsABasicReceiptMultipleItems()
         {
@@ -51,7 +69,7 @@ namespace AbsorbCodingChallenge.Tests
                 }
             };
             var receiptPrinter = new ReceiptPrinter(receipt);
-            Assert.AreEqual("Apple x2\t$2", receiptPrinter.PrintItems().Trim());
+            Assert.AreEqual("Apple x2\t$2.00", receiptPrinter.PrintItems().Trim());
         }
 
         [TestMethod]
@@ -72,7 +90,7 @@ namespace AbsorbCodingChallenge.Tests
                 }
             };
             var receiptPrinter = new ReceiptPrinter(receipt);
-            Assert.AreEqual("Apple x2\t$10\r\nBanana x1\t$3", receiptPrinter.PrintItems().Trim());
+            Assert.AreEqual("Apple x2\t$10.00\r\nBanana x1\t$3.00", receiptPrinter.PrintItems().Trim());
         }
 
         [TestMethod]
@@ -91,7 +109,26 @@ namespace AbsorbCodingChallenge.Tests
                 }
             };
             var receiptPrinter = new ReceiptPrinter(receipt);
-            Assert.AreEqual("Apple x2\t$5", receiptPrinter.PrintItems().Trim());
+            Assert.AreEqual("Apple x2\t$5.00", receiptPrinter.PrintItems().Trim());
+        }
+
+        [TestMethod]
+        public void ItPrintsDiscountedPricesAwkwardDecimals()
+        {
+            var receipt = new Receipt
+            {
+                ItemPrices = new List<ItemPrice>
+                {
+                    new ItemPrice { Name = "Apple", Price = 0.3M, Promotion = new BuyOneGetOnePercentOff(10)},
+                },
+                ScannedItems = new List<ScannedItem>
+                {
+                    new ScannedItem() { Name="Apple" },
+                    new ScannedItem() { Name="Apple" }
+                }
+            };
+            var receiptPrinter = new ReceiptPrinter(receipt);
+            Assert.AreEqual("Apple x2\t$0.57", receiptPrinter.PrintItems().Trim());
         }
 
         [TestMethod]
@@ -99,7 +136,44 @@ namespace AbsorbCodingChallenge.Tests
         {
             var receipt = new Receipt();
             var receiptPrinter = new ReceiptPrinter(receipt);
-            Assert.AreEqual("Total: $0", receiptPrinter.PrintTotal());
+            Assert.AreEqual("Total: $0.00", receiptPrinter.PrintTotal());
+        }
+
+        [TestMethod]
+        public void ItPrintsABasicReceiptTotal()
+        {
+            var receipt = new Receipt
+            {
+                ItemPrices = new List<ItemPrice>
+                {
+                    new ItemPrice { Name = "Apple", Price = 1}
+                },
+                ScannedItems = new List<ScannedItem>
+                {
+                    new ScannedItem() { Name="Apple" }
+                }
+            };
+            var receiptPrinter = new ReceiptPrinter(receipt);
+            Assert.AreEqual("Total: $1.00", receiptPrinter.PrintTotal());
+        }
+
+        [TestMethod]
+        public void ItPrintsADiscountReceiptTotal()
+        {
+            var receipt = new Receipt
+            {
+                ItemPrices = new List<ItemPrice>
+                {
+                    new ItemPrice { Name = "Apple", Price = 0.5M, Promotion = new BuyOneGetOneFree()}
+                },
+                ScannedItems = new List<ScannedItem>
+                {
+                    new ScannedItem() { Name="Apple" },
+                    new ScannedItem() { Name="Apple" }
+                }
+            };
+            var receiptPrinter = new ReceiptPrinter(receipt);
+            Assert.AreEqual("Total: $0.50", receiptPrinter.PrintTotal());
         }
     }
 }
