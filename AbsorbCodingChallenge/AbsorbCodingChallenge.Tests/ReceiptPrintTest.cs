@@ -9,11 +9,19 @@ namespace AbsorbCodingChallenge.Tests
     public class ReceiptPrintTest
     {
         [TestMethod]
-        public void ItCalculatesAnEmptyReceiptItemsList()
+        public void ItPrintsAnEmptyReceiptItems()
         {
             var receipt = new Receipt();
             var receiptPrinter = new ReceiptPrinter(receipt);
-            Assert.AreEqual("", receiptPrinter.Print());
+            Assert.AreEqual("No items found", receiptPrinter.PrintItems());
+        }
+
+        [TestMethod]
+        public void ItPrintsAnEmptyReceiptTotal()
+        {
+            var receipt = new Receipt();
+            var receiptPrinter = new ReceiptPrinter(receipt);
+            Assert.AreEqual("Total: $0", receiptPrinter.PrintTotal());
         }
     }
 }

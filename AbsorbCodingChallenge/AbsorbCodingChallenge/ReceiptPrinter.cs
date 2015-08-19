@@ -21,5 +21,15 @@ namespace AbsorbCodingChallenge
 
             return items;
         }
+
+        public string PrintItems()
+        {
+            return "No items found";
+        }
+
+        public string PrintTotal()
+        {
+            return "Total: $0";
+        }
     }
 }

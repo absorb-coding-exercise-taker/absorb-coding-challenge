@@ -408,6 +408,23 @@ namespace AbsorbCodingChallenge.Tests
         }
 
         [TestMethod]
+        public void ItCalculatesATotalWith1ItemDecimal()
+        {
+            var receipt = new Receipt()
+            {
+                ScannedItems = new List<ScannedItem>()
+                {
+                    new ScannedItem { Name = "Apple" },
+                },
+                ItemPrices = new List<ItemPrice>()
+                {
+                    new ItemPrice() { Name = "Apple", Price = 0.75M }
+                }
+            };
+            Assert.AreEqual(0.75M, receipt.GetTotal());
+        }
+
+        [TestMethod]
         public void ItCalculatesATotalWithDuplicateItem()
         {
             var receipt = new Receipt()
