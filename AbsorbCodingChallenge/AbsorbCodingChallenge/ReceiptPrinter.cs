@@ -29,7 +29,7 @@ namespace AbsorbCodingChallenge
             var items = new StringBuilder();
             foreach (var item in _receipt.GetItems())
             {
-                items.AppendLine($"{item.Name} x{item.Quantity}\t${item.Price}");
+                items.AppendLine($"{item.Name} x{item.Quantity}\t${item.Price.ToString("#.##")}");
             }
             return items.ToString();
         }

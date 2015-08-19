@@ -32,11 +32,15 @@ namespace AbsorbCodingChallenge
             return items;
         }
 
-        private decimal? GetPriceForItem(string name, int quantity)
+        private decimal GetPriceForItem(string name, int quantity)
         {
             var itemPrice = ItemPrices.LastOrDefault(p => p.Name == name);
 
-            return itemPrice?.CalculatePrice(quantity);
+            if (itemPrice == null)
+            {
+                throw new Exception($"Item price for {name} is not defined");
+            }
+            return itemPrice.CalculatePrice(quantity);
         }
 
         private IEnumerable<IGrouping<string, ScannedItem>> GetGroupedScannedItems()
@@ -48,7 +52,7 @@ namespace AbsorbCodingChallenge
         {
             var items = GetItems();
             var total = items.Sum(i => i.Price);
-            return total ?? 0;
+            return total;
         }
     }
 }
