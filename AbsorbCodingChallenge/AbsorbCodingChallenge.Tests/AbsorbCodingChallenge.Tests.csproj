@@ -55,7 +55,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ReceiptPrintTest.cs" />
-    <Compile Include="ReceiptDeserializerTest.cs" />
+    <Compile Include="ItemPricesDeserializerTest.cs" />
+    <Compile Include="ScannedItemsDeserializerTest.cs" />
     <Compile Include="StoreTest.cs" />
     <Compile Include="ReceiptTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
