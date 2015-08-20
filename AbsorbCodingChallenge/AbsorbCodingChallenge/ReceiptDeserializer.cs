@@ -13,42 +13,54 @@ namespace AbsorbCodingChallenge
     {
         public static Receipt Create(string prices, params string[] items)
         {
-            var fileData = JsonConvert.DeserializeObject<dynamic>(prices);
+            var fileData = JsonConvert.DeserializeObject<dynamic[]>(prices);
 
-            var itemPrices = new List<ItemPrice>();
-            foreach (var item in fileData)
-            {
-                var itemPrice = new ItemPrice
-                {
-                    Name = item.Name,
-                    Price = item.Price
-                };
-                if (item.Promotion != null)
-                {
-                    switch ((string)item.Promotion)
-                    {
-                        case "BOGO":
-                            itemPrice.Promotion = new BuyOneGetOneFree();
-                            break;
-                        case "BOGO-PERCENT":
-                            itemPrice.Promotion = new BuyOneGetOnePercentOff((decimal)item.DiscountPercent);
-                            break;
-                        case "MULTI-BUY":
-                            itemPrice.Promotion = new MultiBuy { Price = item.DiscountPrice, Quantity = item.DiscountQuantity };
-                            break;
-                    }
-                }
-                itemPrices.Add(itemPrice);
-            }
+            var itemPrices = fileData.Select(item => CreateItemPrice(item)).Cast<ItemPrice>().ToList();
+
+            return Create(itemPrices, items);
+        }
+
+        private static Receipt Create(IList<ItemPrice> prices, params string[] items)
+        {
             var receipt = new Receipt()
             {
-                ItemPrices = itemPrices,
-                ScannedItems = items.Select(c => new ScannedItem
-                {
-                    Name = c
-                })
+                ItemPrices = prices,
+                ScannedItems = CreateScannedItems(items)
             };
             return receipt;
+        }
+
+        private static IList<ScannedItem> CreateScannedItems(string[] items)
+        {
+            return items.Select(c => new ScannedItem
+            {
+                Name = c
+            }).ToList();
+        }
+
+        private static ItemPrice CreateItemPrice(dynamic item)
+        {
+            var itemPrice = new ItemPrice
+            {
+                Name = item.Name,
+                Price = item.Price
+            };
+            if (item.Promotion != null)
+            {
+                switch ((string)item.Promotion.Type)
+                {
+                    case "BOGO":
+                        itemPrice.Promotion = new BuyOneGetOneFree();
+                        break;
+                    case "BOGO-PERCENT":
+                        itemPrice.Promotion = new BuyOneGetOnePercentOff((decimal)item.Promotion.DiscountPercent);
+                        break;
+                    case "MULTI-BUY":
+                        itemPrice.Promotion = new MultiBuy { Price = item.Promotion.DiscountPrice, Quantity = item.Promotion.DiscountQuantity };
+                        break;
+                }
+            }
+            return itemPrice;
         }
     }
 }

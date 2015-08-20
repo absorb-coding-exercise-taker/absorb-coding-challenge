@@ -14,7 +14,7 @@ namespace AbsorbCodingChallenge.Tests
         {
             var receipt = new Receipt();
             var receiptPrinter = new ReceiptPrinter(receipt);
-            Assert.AreEqual("No items found", receiptPrinter.PrintItems());
+            Assert.AreEqual("No items found", receiptPrinter.PrintItems().Trim());
         }
 
         [TestMethod]

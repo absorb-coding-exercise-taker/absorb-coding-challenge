@@ -23,7 +23,7 @@ namespace AbsorbCodingChallenge
         {
             if (!_receipt.ScannedItems.Any())
             {
-                return "No items found";
+                return "No items found\r\n";
             }
 
             var items = new StringBuilder();

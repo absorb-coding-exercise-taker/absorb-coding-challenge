@@ -18,7 +18,7 @@ namespace AbsorbCodingChallenge
                 quantity = result.RegularPricedQuantity;
             }
 
-            price = Price * quantity;
+            price += Price * quantity;
 
             return price;
         }
