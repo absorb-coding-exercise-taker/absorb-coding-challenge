@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using AbsorbCodingChallenge.Promotions;
 using Newtonsoft.Json;
 
@@ -10,53 +11,29 @@ namespace AbsorbCodingChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the checkout application. Before I process your shopping list, please specify a file which contains your prices (leave blank for sample)");
-            var fileName = Console.ReadLine();
+            Console.WriteLine("Welcome to the checkout application.");
+            var store = new Store();
 
-            if (string.IsNullOrWhiteSpace(fileName))
+            while (true)
             {
-                fileName = "../../sampleItems.json";
-            }
-            var content = System.IO.File.ReadAllText(fileName);
-            var fileData = JsonConvert.DeserializeObject<dynamic>(content);
+                Console.WriteLine("Before I process the items in your cart, please specify a file which contains your prices (leave blank for sampleItems.json)");
+                var fileName = Console.ReadLine();
 
-            var itemPrices = new List<ItemPrice>();
-            foreach (var item in fileData)
-            {
-                var itemPrice = new ItemPrice
+                if (string.IsNullOrWhiteSpace(fileName))
                 {
-                    Name = item.Name,
-                    Price = item.Price
-                };
-                if (item.Promotion != null)
-                {
-                    switch ((string) item.Promotion)
-                    {
-                        case "BOGO":
-                            itemPrice.Promotion = new BuyOneGetOneFree();
-                            break;
-                        case "BOGO-PERCENT":
-                            itemPrice.Promotion = new BuyOneGetOnePercentOff((decimal) item.DiscountPercent);
-                            break;
-                        case "MULTI-BUY":
-                            itemPrice.Promotion = new MultiBuy{ Price = item.DiscountPrice, Quantity = item.DiscountQuantity};
-                            break;
-                    }
+                    fileName = "../../sampleItems.json";
                 }
-                itemPrices.Add(itemPrice);
-            }
-            var receipt = new Receipt()
-            {
-                ItemPrices = itemPrices,
-                ScannedItems = args.Select(c => new ScannedItem
-                {
-                    Name = c
-                })
-            };
-            var printer = new ReceiptPrinter(receipt);
 
-            Console.WriteLine(printer.Print());
-            Console.ReadKey();
+                var content = System.IO.File.ReadAllText(fileName);
+                var itemPrices = ItemPricesDeserializer.Create(content);
+                store.AddItemPrices(itemPrices.ToArray());
+                var scannedItems = ScannedItemsDeserializer.Create(args);
+                var receipt = store.Checkout(scannedItems.ToArray());
+                var printer = new ReceiptPrinter(receipt);
+
+                Console.WriteLine(printer.Print());
+                Console.ReadKey();
+            }
         }
     }
 }

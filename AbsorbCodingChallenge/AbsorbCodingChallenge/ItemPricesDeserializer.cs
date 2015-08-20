@@ -1,41 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AbsorbCodingChallenge.Promotions;
 using Newtonsoft.Json;
 
 namespace AbsorbCodingChallenge
 {
-    public static class ReceiptDeserializer
+    public static class ItemPricesDeserializer
     {
-        public static Receipt Create(string prices, params string[] items)
+        public static IList<ItemPrice> Create(string prices)
         {
             var fileData = JsonConvert.DeserializeObject<dynamic[]>(prices);
 
             var itemPrices = fileData.Select(item => CreateItemPrice(item)).Cast<ItemPrice>().ToList();
-
-            return Create(itemPrices, items);
-        }
-
-        private static Receipt Create(IList<ItemPrice> prices, params string[] items)
-        {
-            var receipt = new Receipt()
-            {
-                ItemPrices = prices,
-                ScannedItems = CreateScannedItems(items)
-            };
-            return receipt;
-        }
-
-        private static IList<ScannedItem> CreateScannedItems(string[] items)
-        {
-            return items.Select(c => new ScannedItem
-            {
-                Name = c
-            }).ToList();
+            return itemPrices;
         }
 
         private static ItemPrice CreateItemPrice(dynamic item)
@@ -56,7 +33,7 @@ namespace AbsorbCodingChallenge
                         itemPrice.Promotion = new BuyOneGetOnePercentOff((decimal)item.Promotion.DiscountPercent);
                         break;
                     case "MULTI-BUY":
-                        itemPrice.Promotion = new MultiBuy { Price = item.Promotion.DiscountPrice, Quantity = item.Promotion.DiscountQuantity };
+                        itemPrice.Promotion = new MultiBuy { Price = item.Promotion.Price, Quantity = item.Promotion.Quantity };
                         break;
                 }
             }

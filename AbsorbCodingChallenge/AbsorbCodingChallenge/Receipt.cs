@@ -10,7 +10,7 @@ namespace AbsorbCodingChallenge
     public class Receipt
     {
         public IEnumerable<ScannedItem> ScannedItems { get; set; }
-        public IEnumerable<ItemPrice> ItemPrices { get; set; }
+        public IList<ItemPrice> ItemPrices { get; set; }
         public Receipt()
         {
             ScannedItems = new List<ScannedItem>();

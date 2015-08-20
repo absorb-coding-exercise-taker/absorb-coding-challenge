@@ -53,7 +53,9 @@
     <Compile Include="Promotions\BuyOneGetOnePercentOff.cs" />
     <Compile Include="Promotions\IPromotion.cs" />
     <Compile Include="Promotions\MultiBuy.cs" />
-    <Compile Include="ReceiptDeserializer.cs" />
+    <Compile Include="ScannedItemsDeserializer.cs" />
+    <Compile Include="Store.cs" />
+    <Compile Include="ItemPricesDeserializer.cs" />
     <Compile Include="ReceiptPrinter.cs" />
     <Compile Include="Receipt.cs" />
     <Compile Include="Program.cs" />
